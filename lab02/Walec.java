@@ -30,7 +30,7 @@ public class Walec {
     }
 
     public double polePodstawy() {
-        return Math.pow(this.r, this.h) * Math.PI;
+        return Math.PI * Math.pow(this.r, this.h);
     }
 
     public double poleBoczne() {
