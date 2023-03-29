@@ -1,9 +1,8 @@
 package lab02;
 
-import java.lang.Math;
-
 public class Walec {
-    private double r, h;
+    private double r;
+    private double h;
 
     public Walec(double r, double h) {
         this.r = r;
