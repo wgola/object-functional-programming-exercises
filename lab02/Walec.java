@@ -5,6 +5,14 @@ import java.lang.Math;
 public class Walec {
     private double r, h;
 
+    public Walec(double r, double h) {
+        this.r = r;
+        this.h = h;
+    }
+
+    public Walec() {
+    }
+
     public void setR(double newR) {
         this.r = newR;
     }
@@ -19,14 +27,6 @@ public class Walec {
 
     public double getH() {
         return this.h;
-    }
-
-    public Walec(double r, double h) {
-        this.r = r;
-        this.h = h;
-    }
-
-    public Walec() {
     }
 
     public double polePodstawy() {
