@@ -7,14 +7,15 @@ class Zad01 {
         Scanner in = new Scanner(System.in);
         System.out.println("Program calculating value of n! (factorial) using for-loop.");
 
-        while (true) {
+        boolean run = true;
+        while (run) {
             System.out.print("Enter natural number: ");
 
             int n = in.nextInt();
             if (n < 0) {
                 System.out.println("Provide correct number!");
             } else {
-                int calculatedFactorial = factorial(n);
+                long calculatedFactorial = factorial(n);
 
                 System.out.println("Factorial of " + n + " equals " + calculatedFactorial);
                 System.out.print("Do you want to calculate another factorial? (Y/N) ");
@@ -23,7 +24,7 @@ class Zad01 {
                 String answer = in.nextLine();
                 if (answer.equals("N")) {
                     System.out.println("Exiting program");
-                    break;
+                    run = false;
                 }
             }
         }
@@ -31,8 +32,8 @@ class Zad01 {
         in.close();
     }
 
-    static int factorial(int n) {
-        int result = 1;
+    static long factorial(int n) {
+        long result = 1;
 
         for (int i = 1; i <= n; i++) {
             result *= i;
