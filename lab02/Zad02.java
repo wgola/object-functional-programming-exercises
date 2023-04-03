@@ -51,8 +51,10 @@ class Zad02 {
     static void zmienDaneWalca(Walec walec) {
         System.out.print("Podaj nowy promień podstawy: ");
         double nowyPromien = skaner.nextDouble();
+
         System.out.print("Podaj nową wysokość: ");
         double nowaWysokosc = skaner.nextDouble();
+
         walec.setR(nowyPromien);
         walec.setH(nowaWysokosc);
         System.out.println("Ustawiono nowe wartości.");
