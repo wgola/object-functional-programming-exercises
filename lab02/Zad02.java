@@ -14,13 +14,13 @@ class Zad02 {
 
         boolean pracuje = true;
         while (pracuje) {
-            int odp = wybierzOpcje();
+            int opcja = wybierzOpcje();
 
-            if (odp == 1) {
+            if (opcja == 1) {
                 wyswietlWalec(walec);
-            } else if (odp == 2) {
+            } else if (opcja == 2) {
                 zmienDaneWalca(walec);
-            } else if (odp == 3) {
+            } else if (opcja == 3) {
                 wyswietlPoleIObjetoscWalca(walec);
             } else {
                 pracuje = false;
