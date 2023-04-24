@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    static Scanner in = new Scanner(System.in);
+    static Scanner numbersScanner = new Scanner(System.in);
+    static Scanner stringsScanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         System.out.println("""
@@ -41,127 +42,148 @@ public class Main {
                 4) Wyświetlenie wszystkich spotkań z dnia o zadanym priorytecie
                 5) Wyjście z programu""");
 
-        int option = in.nextInt();
+        int option = numbersScanner.nextInt();
 
         return option;
     }
 
     static void addMeeting(Kalendarz calendar) {
-        try {
-            int day = getDay();
+        int day = getDay();
 
-            LocalTime startTime = getStartTime();
+        LocalTime startTime = getStartTime();
 
-            LocalTime endTime = getEndTime();
+        LocalTime endTime = getEndTime();
 
-            if (startTime.isAfter(endTime)) {
-                throw new Exception("Godzina zakończenia nie może być wcześniejsza niż godzina rozpoczęcia!");
-            }
-
-            System.out.println("Podaj opis: ");
-            String description = in.nextLine();
-
-            Priority priority = getPriority();
-
-            Spotkanie newMeeting = new Spotkanie(description, startTime, endTime, priority);
-            calendar.addMeeting(day, newMeeting);
-
-            System.out.println("Dodano spotkanie.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        while (startTime.isAfter(endTime)) {
+            System.out.println(
+                    "Godzina zakończenia nie może być wcześniejsza niż godzina rozpoczęcia! Spróbuj ponownie: ");
+            startTime = getStartTime();
+            endTime = getEndTime();
         }
+
+        System.out.println("Podaj opis: ");
+        String description = stringsScanner.nextLine();
+
+        Priority priority = getPriority();
+
+        Spotkanie newMeeting = new Spotkanie(description, startTime, endTime, priority);
+        calendar.addMeeting(day, newMeeting);
+
+        System.out.println("Dodano spotkanie.");
     }
 
     static void deleteMeeting(Kalendarz calendar) {
-        try {
-            int day = getDay();
-            System.out.println("Podaj indeks spotkania: ");
+        int day = getDay();
+        System.out.println("Podaj indeks spotkania: ");
 
-            int meetingID = in.nextInt();
+        int meetingID = numbersScanner.nextInt();
+        List<Spotkanie> allMeetings = calendar.getAllMeetingsFromDay(day);
+
+        if (meetingID - 1 < 0 || meetingID - 1 > allMeetings.size()) {
+            System.out.println("Brak spotkania o podanym ID");
+        } else {
             calendar.deleteMeeting(day, meetingID - 1);
 
             System.out.println("Usunięto spotkanie.");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
     static void showMeetingsFromDay(Kalendarz calendar) {
-        try {
-            int day = getDay();
+        int day = getDay();
 
-            List<Spotkanie> meetingsFromDay = calendar.getAllMeetingsFromDay(day);
+        List<Spotkanie> meetingsFromDay = calendar.getAllMeetingsFromDay(day);
 
+        if (meetingsFromDay.size() == 0) {
+            System.out.println("Brak spotkań w tym dniu.");
+        } else {
             for (int i = 0; i < meetingsFromDay.size(); i++) {
                 System.out.println(i + 1 + ". " + meetingsFromDay.get(i));
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
     static void showMeetingsFromDayWithPriority(Kalendarz calendar) {
-        try {
-            int day = getDay();
+        int day = getDay();
 
-            Priority priority = getPriority();
+        Priority priority = getPriority();
 
-            List<Spotkanie> meetingsFromDayWithPriority = calendar.getAllMettingsFromDayWithPriority(day, priority);
+        List<Spotkanie> meetingsFromDayWithPriority = calendar.getAllMettingsFromDayWithPriority(day, priority);
 
+        if (meetingsFromDayWithPriority.size() == 0) {
+            System.out.println("Brak spotkań z podanym priorytetem w tym dniu.");
+        } else {
             for (int i = 0; i < meetingsFromDayWithPriority.size(); i++) {
                 System.out.println(i + 1 + ". " + meetingsFromDayWithPriority.get(i));
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 
-    static LocalTime getStartTime() throws Exception {
+    static LocalTime getStartTime() {
         System.out.println("Podaj godzinę rozpoczęcia (HH:MM:SS): ");
-        in.nextLine();
-        try {
-            LocalTime startTime = LocalTime.parse(in.nextLine());
-            if (Spotkanie.EARLIEST_MEETING_HOUR.isAfter(startTime)) {
-                throw new Exception(
-                        "Godzina rozpoczęcia nie może być wcześniejsza niż " + Spotkanie.EARLIEST_MEETING_HOUR);
+        LocalTime startTime = null;
+        boolean gettingTime = true;
+
+        while (gettingTime) {
+            try {
+                startTime = LocalTime.parse(stringsScanner.nextLine());
+                if (Spotkanie.EARLIEST_MEETING_HOUR.isAfter(startTime)) {
+                    System.out.println("Godzina rozpoczęcia nie może być wcześniejsza niż "
+                            + Spotkanie.EARLIEST_MEETING_HOUR + ". Spróbuj ponownie: ");
+                } else {
+                    gettingTime = false;
+                }
+            } catch (DateTimeParseException e) {
+                System.out.println("Podano zły format godziny! Spróbuj ponownie: ");
             }
-
-            return startTime;
-        } catch (DateTimeParseException e) {
-            throw new Exception("Podano zły format godziny!");
         }
+
+        return startTime;
     }
 
-    static LocalTime getEndTime() throws Exception {
+    static LocalTime getEndTime() {
         System.out.println("Podaj godzinę zakończenia (HH:MM:SS): ");
-        try {
-            LocalTime startTime = LocalTime.parse(in.nextLine());
+        LocalTime endTime = null;
+        boolean gettingTime = true;
 
-            return startTime;
-        } catch (DateTimeParseException e) {
-            throw new Exception("Podano zły format godziny!");
+        while (gettingTime) {
+            try {
+                endTime = LocalTime.parse(stringsScanner.nextLine());
+                gettingTime = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Podano zły format godziny! Spróbuj ponownie: ");
+            }
         }
+
+        return endTime;
     }
 
-    static Priority getPriority() throws Exception {
+    static Priority getPriority() {
         System.out.println("Podaj priorytet (1 - niski, 2 - średni, 3 - wysoki): ");
-        int intPriority = in.nextInt();
-        if (intPriority == 1) {
-            return Priority.LOW;
-        } else if (intPriority == 2) {
-            return Priority.MEDIUM;
-        } else if (intPriority == 3) {
-            return Priority.HIGH;
+        int intPriority = numbersScanner.nextInt();
+        while (intPriority < 1 || intPriority > 3) {
+            System.out.println("Podano zły priorytet! Spróbuj ponownie: ");
+            intPriority = numbersScanner.nextInt();
         }
 
-        throw new Exception("Podano zły priorytet!");
+        switch (intPriority) {
+            case 1 -> {
+                return Priority.LOW;
+            }
+            case 2 -> {
+                return Priority.MEDIUM;
+            }
+            default -> {
+                return Priority.HIGH;
+            }
+        }
     }
 
-    static int getDay() throws Exception {
+    static int getDay() {
         System.out.println("Podaj dzień tygodnia (0-6): ");
-        int day = in.nextInt();
-        if (day < 0 || day > 6) {
-            throw new Exception("Podano zły dzień tygodnia!");
+        int day = numbersScanner.nextInt();
+        while (day < 0 || day > 6) {
+            System.out.println("Podano zły dzień tygodnia! Spróbuj ponownie: ");
+            day = numbersScanner.nextInt();
         }
 
         return day;

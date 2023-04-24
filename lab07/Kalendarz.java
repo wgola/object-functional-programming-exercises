@@ -3,12 +3,17 @@ package lab07;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Kalendarz {
-    private HashMap<Integer, List<Spotkanie>> listOfMeetings = new HashMap<>(7);
+    private Map<Integer, List<Spotkanie>> listOfMeetings = new HashMap<>(7);
 
     public Kalendarz() {
-        for (int i = 0; i < 7; i++) {
+        this(7);
+    }
+
+    public Kalendarz(int numberOfDays) {
+        for (int i = 0; i < numberOfDays; i++) {
             this.listOfMeetings.put(i, new ArrayList<>());
         }
     }
