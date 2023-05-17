@@ -17,6 +17,8 @@ public class Main {
                 zakończenia, opisu oraz priorytetu do kalendarza oraz ich wyszukiwania i usuwania.""");
         Kalendarz calendar = new Kalendarz();
 
+        insertData(calendar);
+
         boolean run = true;
         while (run) {
             int option = chooseOption();
@@ -39,6 +41,19 @@ public class Main {
                 default -> System.out.println("Wybrano niepoprawną opcję!");
             }
         }
+    }
+
+    static void insertData(Kalendarz calendar) {
+        calendar.addEvent(0, new Spotkanie("opis1", LocalTime.of(12, 0), LocalTime.of(14, 0), Priority.LOW));
+        calendar.addEvent(0, new Spotkanie("opis2", LocalTime.of(10, 0), LocalTime.of(11, 00), Priority.MEDIUM));
+        calendar.addEvent(0, new Spotkanie("opis3", LocalTime.of(15, 0), LocalTime.of(16, 0), Priority.HIGH));
+        calendar.addEvent(0, new Spotkanie("opis4", LocalTime.of(9, 0), LocalTime.of(12, 0), Priority.MEDIUM));
+
+        calendar.addEvent(0, new Zadanie("opis5", LocalTime.of(14, 0), LocalTime.of(15, 0), Status.CONFIRMED));
+        calendar.addEvent(0, new Zadanie("opis6", LocalTime.of(10, 0), LocalTime.of(12, 0), Status.DONE));
+        calendar.addEvent(0, new Zadanie("opis7", LocalTime.of(16, 0), LocalTime.of(18, 0), Status.PLANNED));
+        calendar.addEvent(0, new Zadanie("opis8", LocalTime.of(13, 0), LocalTime.of(14, 0), Status.REALIZED));
+        calendar.addEvent(0, new Zadanie("opis9", LocalTime.of(9, 0), LocalTime.of(11, 0), Status.DONE));
     }
 
     static int chooseOption() {
