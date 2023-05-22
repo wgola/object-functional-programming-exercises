@@ -39,13 +39,18 @@ public class Main {
 
     private static void insertData(ListOfOffers listOfOffers) {
         listOfOffers.addSaleOffer(
-                new House("Jana Kazimierza", 5, "Gdańsk", "12-345", 123.5, 100000, LocalDate.of(2023, 5, 20), 15));
+                new House("Wita Stwosza", 5, "Gdańsk", "12-345", 65.5, 908453, LocalDate.of(2023, 5, 20), 15));
         listOfOffers.addSaleOffer(
-                new House("Jana Kazimierza", 6, "Gdańsk", "23-456", 234.5, 123456, LocalDate.of(2023, 5, 30), 100));
+                new House("Jana Kazimierza", 6, "Gdańsk", "23-456", 234.5, 123456, LocalDate.of(2023, 5, 30), 165));
         listOfOffers.addSaleOffer(
-                new Flat("Jana Kazimierza", 5, "Gdańsk", "12-345", 123.5, 100000, LocalDate.of(2023, 5, 20), 10, 6));
+                new House("Jana Pawła II", 75, "Gdańsk", "65-654", 632.4, 654321, LocalDate.of(2023, 5, 30), 100));
         listOfOffers.addSaleOffer(
-                new Flat("Jana Kazimierza", 5, "Gdańsk", "12-345", 123.5, 100000, LocalDate.of(2025, 5, 20), 6, 10));
+                new Flat("Marii Konopnickiej", 43, "Gdańsk", "98-432", 123.5, 98543, LocalDate.of(2023, 5, 20), 10,
+                        6));
+        listOfOffers.addSaleOffer(
+                new Flat("Słoneczna", 5, "Gdańsk", "43-453", 987.5, 5764398, LocalDate.of(2025, 5, 20), 6, 10));
+        listOfOffers.addSaleOffer(
+                new Flat("Spacerowa", 9, "Gdańsk", "54-522", 96.5, 4239043, LocalDate.of(2025, 5, 20), 11, 4));
     }
 
     static int chooseOption() {
@@ -70,7 +75,7 @@ public class Main {
 
         addProperty(newHouse);
 
-        double landArea = getLandArea();
+        double landArea = getDoubleArg("Podaj powierzchnie działki: ", "Podano złą powierzchnię działki!");
 
         newHouse.setLandArea(landArea);
 
@@ -83,11 +88,11 @@ public class Main {
 
         addProperty(newFlat);
 
-        int flatNumber = getFlatNumber();
+        int flatNumber = getIntArg("Podaj numer mieszkania: ", "Podano zły numer mieszkania!");
 
         newFlat.setFlatNumber(flatNumber);
 
-        int floorNumber = getFloorNumber();
+        int floorNumber = getIntArg("Podaj numer piętra: ", "Podano zły numer piętra!");
 
         newFlat.setFloorNumber(floorNumber);
 
@@ -118,8 +123,8 @@ public class Main {
     private static void showFilteredHouses(ListOfOffers listOfOffers) {
         LocalDate currentDate = LocalDate.now();
 
-        String city = getCity();
-        double area = getArea();
+        String city = getStringArg("Podaj miejscowość: ", "Podano złą miejscowość!");
+        double area = getDoubleArg("Podaj powierzchnie: ", "Podano złą powierzchnie!");
 
         Predicate<Property> filter = p -> p instanceof House h
                 && (h.getDueDate().equals(currentDate) || h.getDueDate().isAfter(currentDate))
@@ -127,15 +132,16 @@ public class Main {
 
         List<Property> filteredHouses = listOfOffers.getAllOffers(filter);
 
-        showOffers(filteredHouses, "Brak aktualnych ofert sprzedaży domów!");
+        showOffers(filteredHouses,
+                "Brak aktualnych ofert sprzedaży domów, w podanej miejscowości, o powierzchni nie mniejszej niż podana wartość!");
     }
 
     private static void showFilteredFlats(ListOfOffers listOfOffers) {
         LocalDate currentDate = LocalDate.now();
 
-        String city = getCity();
-        double price = getPrice();
-        int floorNumber = getFloorNumber();
+        String city = getStringArg("Podaj miejscowość: ", "Podano złą miejscowość!");
+        double price = getDoubleArg("Podaj cenę: ", "Podano złą cenę!");
+        int floorNumber = getIntArg("Podaj numer piętra: ", "Podano zły numer piętra!");
 
         Predicate<Property> filter = p -> p instanceof Flat f
                 && (f.getDueDate().equals(currentDate) || f.getDueDate().isAfter(currentDate))
@@ -143,7 +149,8 @@ public class Main {
 
         List<Property> filteredFlats = listOfOffers.getAllOffers(filter);
 
-        showOffers(filteredFlats, "Brak aktualnych ofert sprzedaży mieszkań!");
+        showOffers(filteredFlats,
+                "Brak aktualnych ofert sprzedaży mieszkań, w podanej miejscowości, nie droższych niż podana wartość i od podanego piętra wzwyż!");
     }
 
     private static void showOffers(List<Property> listOfOffers, String errorMessage) {
@@ -157,27 +164,27 @@ public class Main {
     }
 
     private static void addProperty(Property property) {
-        String street = getStreet();
+        String street = getStringArg("Podaj ulicę: ", "Podano złą ulicę: ");
 
         property.setStreet(street);
 
-        int houseNumber = getHouseNumber();
+        int houseNumber = getIntArg("Podaj numer domu: ", "Podano zły numer domu!");
 
         property.setHouseNumber(houseNumber);
 
-        String city = getCity();
+        String city = getStringArg("Podaj miejscowość: ", "Podano złą miejscowość!");
 
         property.setCity(city);
 
-        String postalCode = getPostalCode();
+        String postalCode = getStringArg("Podaj kod pocztowy: ", "Podano zły kod pocztowy!");
 
         property.setPostalCode(postalCode);
 
-        double area = getArea();
+        double area = getDoubleArg("Podaj powierzchnie: ", "Podano złą powierzchnie!");
 
         property.setArea(area);
 
-        double price = getPrice();
+        double price = getDoubleArg("Podaj cenę: ", "Podano złą cenę!");
 
         property.setPrice(price);
 
@@ -186,44 +193,8 @@ public class Main {
         property.setDueDate(dueDate);
     }
 
-    private static double getLandArea() {
-        System.out.println("Podaj powierzchnie działki: ");
-
-        double landArea = numbersScanner.nextDouble();
-        while (landArea <= 0) {
-            System.out.println("Podano złą powierzchnię działki! Spróbuj ponownie: ");
-            landArea = numbersScanner.nextDouble();
-        }
-
-        return landArea;
-    }
-
-    private static int getFlatNumber() {
-        System.out.println("Podaj numer mieszkania: ");
-
-        int flatNumber = numbersScanner.nextInt();
-        while (flatNumber <= 0) {
-            System.out.println("Podano zły numer mieszkania! Spróbuj ponownie: ");
-            flatNumber = numbersScanner.nextInt();
-        }
-
-        return flatNumber;
-    }
-
-    private static int getFloorNumber() {
-        System.out.println("Podaj numer piętra: ");
-
-        int floorNumber = numbersScanner.nextInt();
-        while (floorNumber <= 0) {
-            System.out.println("Podano zły numer piętra! Spróbuj ponownie: ");
-            floorNumber = numbersScanner.nextInt();
-        }
-
-        return floorNumber;
-    }
-
     private static LocalDate getDueDate() {
-        System.out.println("Podaj datę obowiązywania oferty: ");
+        System.out.println("Podaj datę obowiązywania oferty (YYYY-MM-DD): ");
         LocalDate dueDate = null;
         boolean gettingTime = true;
 
@@ -239,52 +210,28 @@ public class Main {
         return dueDate;
     }
 
-    private static double getPrice() {
-        System.out.println("Podaj cenę: ");
+    private static double getDoubleArg(String message, String errorMessage) {
+        System.out.println(message);
 
-        double price = numbersScanner.nextDouble();
-        while (price <= 0) {
-            System.out.println("Podano złą cenę! Spróbuj ponownie: ");
-            price = numbersScanner.nextDouble();
+        double arg = numbersScanner.nextDouble();
+        while (arg <= 0) {
+            System.out.println(errorMessage + " Spróbuj ponownie: ");
+            arg = numbersScanner.nextInt();
         }
 
-        return price;
+        return arg;
     }
 
-    private static double getArea() {
-        System.out.println("Podaj powierzchnie: ");
+    private static int getIntArg(String message, String errorMessage) {
+        System.out.println(message);
 
-        double area = numbersScanner.nextDouble();
-        while (area <= 0) {
-            System.out.println("Podano złą powierzchnie! Spróbuj ponownie: ");
-            area = numbersScanner.nextDouble();
+        int arg = numbersScanner.nextInt();
+        while (arg <= 0) {
+            System.out.println(errorMessage + " Spróbuj ponownie: ");
+            arg = numbersScanner.nextInt();
         }
 
-        return area;
-    }
-
-    private static String getStreet() {
-        return getStringArg("Podaj ulicę: ", "Podano złą ulicę: ");
-    }
-
-    private static int getHouseNumber() {
-        System.out.println("Podaj numer domu: ");
-
-        int houseNumber = numbersScanner.nextInt();
-        while (houseNumber <= 0) {
-            System.out.println("Podano zły numer domu! Spróbuj ponownie: ");
-            houseNumber = numbersScanner.nextInt();
-        }
-
-        return houseNumber;
-    }
-
-    private static String getCity() {
-        return getStringArg("Podaj miejscowość: ", "Podano złą miejscowość!");
-    }
-
-    private static String getPostalCode() {
-        return getStringArg("Podaj kod pocztowy: ", "Podano zły kod pocztowy!");
+        return arg;
     }
 
     private static String getStringArg(String message, String errorMessage) {
