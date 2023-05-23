@@ -39,18 +39,18 @@ public class Main {
 
     private static void insertData(ListOfOffers listOfOffers) {
         listOfOffers.addSaleOffer(
-                new House("Wita Stwosza", 5, "Gdańsk", "12-345", 65.5, 908453, LocalDate.of(2023, 5, 20), 15));
+                new House("Wita Stwosza", 5, "Gdańsk", "12-345", 65.5, 908453, LocalDate.of(2023, 5, 20), 152));
         listOfOffers.addSaleOffer(
-                new House("Jana Kazimierza", 6, "Gdańsk", "23-456", 234.5, 123456, LocalDate.of(2023, 5, 30), 165));
+                new House("Jana Kazimierza", 6, "Gdańsk", "23-456", 234.5, 123456, LocalDate.of(2023, 5, 30), 1645));
         listOfOffers.addSaleOffer(
-                new House("Jana Pawła II", 75, "Gdańsk", "65-654", 632.4, 654321, LocalDate.of(2023, 5, 30), 100));
+                new House("Jana Pawła II", 75, "Gdańsk", "65-654", 632.4, 654321, LocalDate.of(2023, 5, 30), 786));
         listOfOffers.addSaleOffer(
                 new Flat("Marii Konopnickiej", 43, "Gdańsk", "98-432", 123.5, 98543, LocalDate.of(2023, 5, 20), 10,
                         6));
         listOfOffers.addSaleOffer(
-                new Flat("Słoneczna", 5, "Gdańsk", "43-453", 987.5, 5764398, LocalDate.of(2025, 5, 20), 6, 10));
+                new Flat("Słoneczna", 5, "Gdańsk", "43-453", 987.5, 576439, LocalDate.of(2025, 5, 20), 6, 10));
         listOfOffers.addSaleOffer(
-                new Flat("Spacerowa", 9, "Gdańsk", "54-522", 96.5, 4239043, LocalDate.of(2025, 5, 20), 11, 4));
+                new Flat("Spacerowa", 9, "Gdańsk", "54-522", 96.5, 423904, LocalDate.of(2025, 5, 20), 11, 4));
     }
 
     static int chooseOption() {

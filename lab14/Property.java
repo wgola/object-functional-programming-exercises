@@ -29,7 +29,7 @@ public abstract sealed class Property permits House, Flat {
     @Override
     public String toString() {
         return "Miasto: " + this.city + ", kod pocztowy: " + this.postalCode + ", ulica: " + this.street
-                + ", numer domu: " + this.houseNumber + ", powierzchnia: " + this.area + ", cena: " + this.price
+                + ", numer domu: " + this.houseNumber + ", powierzchnia: " + this.area + "m^2, cena: " + this.price
                 + "PLN, data obowiązywania oferty: " + this.dueDate;
     }
 

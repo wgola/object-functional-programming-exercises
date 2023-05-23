@@ -19,7 +19,7 @@ public final class House extends Property {
 
     @Override
     public String toString() {
-        return super.toString() + ", powierzchnia działki: " + this.landArea;
+        return super.toString() + ", powierzchnia działki: " + this.landArea + "m^2";
     }
 
     public double getLandArea() {
