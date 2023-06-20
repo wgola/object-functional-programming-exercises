@@ -1,3 +1,3 @@
-### Object-Funcitonal Programming exercises repository
+## Object-Funcitonal Programming exercises repository
 
-This repository contains exercises which I solved during my studies on course "Object-functional programming".
+### This repository contains exercises which I solved during my studies on course "Object-functional programming".
